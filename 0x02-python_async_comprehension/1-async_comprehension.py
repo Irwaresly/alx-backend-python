@@ -1,20 +1,14 @@
 #!/usr/bin/env python3
-'''oroutine will collect 10 random numbers using an async comprehensing over async_generator, then return the 10 random numbers'''
-import asyncio
-import random
+'''Task 1's module.
+'''
+from typing import List
+from importlib import import_module as using
 
-async def async_generator():
-    for _ in range(10):
-        await asyncio.sleep(1)  # Asynchronously wait for 1 second
-        yield random.uniform(0, 10)  # Yield a random floating-point number between 0 and 10
 
-async def async_comprehension():
-    return [i async for i in async_generator()]
+async_generator = using('0-async_generator').async_generator
 
-# Example usage:
-async def main():
-    result = await async_comprehension()
-    print(result)
 
-asyncio.run(main())
-
+async def async_comprehension() -> List[float]:
+    '''Creates a list of 10 numbers from a 10-number generator.
+    '''
+    return [num async for num in async_generator()]
