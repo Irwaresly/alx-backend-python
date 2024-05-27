@@ -1,26 +1,29 @@
+#!/usr/bin/env python3
+"""A module for testing the client module.
+"""
 import unittest
-from unittest.mock import patch, Mock
-from parameterized import parameterized
-from client import GithubOrgClient
+from typing import Dict
+from unittest.mock import (
+    MagicMock,
+    Mock,
+    PropertyMock,
+    patch,
+)
+from parameterized import parameterized, parameterized_class
+from requests import HTTPError
+
+from client import (
+    GithubOrgClient
+)
+from fixtures import TEST_PAYLOAD
+
 
 class TestGithubOrgClient(unittest.TestCase):
-    """Test case for GithubOrgClient class."""
-
+    """Tests the `GithubOrgClient` class."""
     @parameterized.expand([
-        ("google", {"login": "google", "id": 1}),
-        ("abc", {"login": "abc", "id": 2}),
+        ("google", {'login': "google"}),
+        ("abc", {'login': "abc"}),
     ])
-    @patch('client.GithubOrgClient._get')
-    def test_org(self, org_name, expected_response, mock_get):
-        """Test that GithubOrgClient.org returns the correct value."""
-        mock_get.return_value = expected_response
-
-        client = GithubOrgClient(org_name)
-        org = client.get_org()
-
-        self.assertEqual(org, expected_response)
-        mock_get.assert_called_once_with("")
-
-if __name__ == "__main__":
-    unittest.main()
-
+    @patch(
+        "client.get_json",
+    )
